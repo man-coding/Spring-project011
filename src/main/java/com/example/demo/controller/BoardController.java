@@ -17,13 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.BoardDTO;
 import com.example.demo.service.BoardService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "게시물 관리 API", description = "Swagger 테스트")
 @RestController // responsebody + controller 조합 어노테이션 자동으로 jason으로 처리됨
 @RequestMapping("/board")
 public class BoardController {
 
 	@Autowired
 	BoardService service;
-
+				//제목					//유의사항
+	@Operation(summary = "게시물 등록", description = "파라미터로 받은 게시물 정보를 등록합니다.")
 	@PostMapping
 	public ResponseEntity<Integer> register(@RequestBody BoardDTO dto) {
 
@@ -32,7 +37,8 @@ public class BoardController {
 		return new ResponseEntity<>(no, HttpStatus.CREATED);
 
 	}
-
+	
+	@Operation(summary = "게시물 목록 조회", description = "모든 게시물 정보를 조회합니다")
 	@GetMapping
 	public ResponseEntity<List<BoardDTO>> getList() {
 
@@ -40,7 +46,9 @@ public class BoardController {
 
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
-
+	
+	
+	@Operation(summary = "게시물 상세 조회", description = "파라미터로 받은 글번호로 게시물을 조회합니다")
 	@GetMapping("/{no}")
 	public ResponseEntity<BoardDTO> read(@PathVariable("no") int no) {
 
@@ -48,7 +56,8 @@ public class BoardController {
 
 		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
-
+	
+	@Operation(summary = "게시물 수정", description = "파라미터로 받은 게시물 정보로 교체합니다")
 	@PutMapping
 	public ResponseEntity modify(@RequestBody BoardDTO dto) {
 
@@ -56,7 +65,8 @@ public class BoardController {
 
 		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
-
+	
+	@Operation(summary = "게시물 삭제", description = "파라미터로 받은 글번호로 게시물을 삭제합니다")
 	@DeleteMapping("/{no}")
 	public ResponseEntity remove(@PathVariable("no") int no) {
 
